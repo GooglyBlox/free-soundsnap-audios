@@ -1,4 +1,4 @@
-# Free Soundsnap Audios
+# Free [Soundsnap](https://www.soundsnap.com/) Audios
 
 This repository contains a Node.js application built with Express and Puppeteer. It's designed to extract audio sources from Soundsnap using Puppeteer's headless browser capabilities.
 
