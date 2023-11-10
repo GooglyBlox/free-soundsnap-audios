@@ -6,7 +6,7 @@ const app = express();
 const PORT = 3000;
 
 app.use(bodyParser.json());
-app.use(express.static('public')); // Serve static files from 'public' directory
+app.use(express.static('public'));
 
 app.post('/getAudioSource', async (req, res) => {
     const url = req.body.url;
@@ -18,15 +18,12 @@ app.post('/getAudioSource', async (req, res) => {
   
 
         const page = await browser.newPage();
-        await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 }); // Added timeout and waitUntil
+        await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
 
-        // Hover over the element
         await page.hover('span.ojoo-button.ojoo-play').catch(e => console.error('Error on hover:', e));
 
-        // Wait for the audio element to appear (if necessary)
         await page.waitForSelector('audio', { timeout: 10000 }).catch(e => console.error('Error on waitForSelector:', e));
 
-        // Extract the audio source
         const audioSrc = await page.evaluate(() => {
             const audio = document.querySelector('audio');
             return audio ? audio.src : null;
