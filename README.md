@@ -18,17 +18,17 @@ To install the required packages, follow these steps:
    ```
 2. Navigate to the cloned repository:
    ```bash
-    cd free-soundsnap-audios
+   cd free-soundsnap-audios
    ```
 3. Install the necessary Node.js packages:
    ```bash
-     npm install
+   npm install
    ```
 
 ## Babel Setup
 1. Install Babel and its presets:
   ```bash
-  npm install @babel/core @babel/node @babel/preset-env
+npm install @babel/core @babel/node @babel/preset-env
   ```
 2. Create a ``.babelrc`` file in the project root with the following content:
  ```json
