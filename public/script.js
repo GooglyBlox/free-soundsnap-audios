@@ -1,6 +1,6 @@
 document.getElementById('fetchButton').addEventListener('click', function() {
-    var inputUrl = document.getElementById('urlInput').value;
-    var audioLinkContainer = document.getElementById('audioLinkContainer');
+    const inputUrl = document.getElementById('urlInput').value;
+    const audioLinkContainer = document.getElementById('audioLinkContainer');
     
     if (inputUrl.startsWith('https://www.soundsnap.com/')) {
         audioLinkContainer.innerHTML = '<div class="loader">Loading...</div>';
