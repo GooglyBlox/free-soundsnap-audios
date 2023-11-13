@@ -1,18 +1,17 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import puppeteer from 'puppeteer';
+import { Application, Router } from "https://deno.land/x/oak@v12.6.1/mod.ts";
+import puppeteer from "https://deno.land/x/puppeteer@16.2.0/mod.ts";
 
-const app = express();
+const app = new Application();
+const router = new Router();
 const PORT = 3000;
 
-app.use(bodyParser.json());
-app.use(express.static('public'));
-
-app.post('/getAudioSource', async (req, res) => {
-    const url = req.body.url;
+router.post('/getAudioSource', async (context) => {
     try {
+        const body = await context.request.body().value;
+        const url = body.url;
+
         const browser = await puppeteer.launch({
-            headless: "new",
+            headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
 
@@ -34,14 +33,15 @@ app.post('/getAudioSource', async (req, res) => {
                     if (hits && hits.length > 0) {
                         const document = hits[0].document;
                         if (document && document['audio.filepath']) {
-                            if(url.startsWith("https://www.soundsnap.com/stock-music/")) {
+                            if (url.startsWith("https://www.soundsnap.com/stock-music/")) {
                                 audioFilepath = `https://www.soundsnap.com/stock-music/play?t=e&p=${document['audio.filepath']}`;
                             } else {
                                 audioFilepath = `https://www.soundsnap.com/play?t=e&p=${document['audio.filepath']}`;
                             }
                         }
                     }
-                } catch (e) {
+                } catch (_e) {
+                    // shouldn't error technically ¯\_(ツ)_/¯
                 }
             }
         });
@@ -50,16 +50,28 @@ app.post('/getAudioSource', async (req, res) => {
         await browser.close();
 
         if (audioFilepath) {
-            res.json({ audioSrc: audioFilepath });
+            context.response.body = { audioSrc: audioFilepath };
         } else {
-            res.json({ error: 'Audio source not found.' });
+            context.response.body = { error: 'Audio source not found.' };
         }
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        context.response.status = 500;
+        context.response.body = { error: error.message };
     }
 });
 
+app.use(router.routes());
+app.use(router.allowedMethods());
 
-app.listen(PORT, () => {
+app.use(async (context, _next) => {
+    await context.send({
+      root: `${Deno.cwd()}/public`,
+      index: "index.html",
+    });
+});
+
+app.addEventListener("listen", () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
+
+await app.listen({ port: PORT });
