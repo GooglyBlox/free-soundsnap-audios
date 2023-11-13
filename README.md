@@ -1,12 +1,12 @@
-# Free [Soundsnap](https://www.soundsnap.com/) Audios
+# Free [Soundsnap](https://www.soundsnap.com/) Audios - Deno Version
 
-This repository contains a Node.js application built with Express and Puppeteer. It's designed to extract audio sources from Soundsnap using Puppeteer's headless browser capabilities.
+This repository contains a Deno application built with Oak and Puppeteer. It's designed to extract audio sources from Soundsnap using Puppeteer's headless browser capabilities, leveraging the modern features of Deno.
 
 ## Prerequisites
 
 Before you begin, ensure you have met the following requirements:
-- You have a recent version of Node.js installed (preferably v12 or higher).
-- You have npm installed (comes with Node.js).
+- You have Deno installed (1.10.0 or higher recommended).
+- Basic familiarity with Deno and its package management.
 
 ## Installation
 
@@ -16,30 +16,18 @@ To install the required packages, follow these steps:
    ```bash
    git clone https://github.com/GooglyBlox/free-soundsnap-audios
    ```
-2. Navigate to the cloned repository:
+2. Switch to the Deno branch:
+   ```bash
+   git checkout deno-version
+   ```
+3. Navigate to the cloned repository:
    ```bash
    cd free-soundsnap-audios
    ```
-3. Install the necessary Node.js packages:
-   ```bash
-   npm install
-   ```
-
-## Babel Setup
-1. Install Babel and its presets:
-  ```bash
-npm install @babel/core @babel/node @babel/preset-env
-  ```
-2. Create a ``.babelrc`` file in the project root with the following content:
- ```json
-{
-  "presets": ["@babel/preset-env"]
-}
-```
 
 ## Running the Application
 ```bash
-npx babel-node index.js
+deno run --allow-all index.js
 ```
 
 ## Usage
@@ -48,11 +36,12 @@ Once the application is live, simply paste your Soundsnap audio URL into the inp
 
 ## :warning: Important Disclaimer
 
-This GitHub repository and the associated Node.js application are **strictly for educational purposes**. The project demonstrates the use of Puppeteer with Express in Node.js for web scraping and automation tasks.
+This Deno version of the project, like its Node.js counterpart, is **strictly for educational purposes**. It demonstrates the use of Deno for web applications, highlighting its efficiency and modern capabilities compared to traditional Node.js.
+
 
 ### Intended Use
 
-The purpose of this project is to showcase programming techniques and the potential of web automation. It serves as a learning resource for those interested in Node.js, Puppeteer, and web scraping technologies.
+The purpose of this project is to showcase programming techniques and the potential of web automation. It serves as a learning resource for those interested in Deno.js, Puppeteer, and web scraping technologies.
 
 ### Prohibited Use
 
