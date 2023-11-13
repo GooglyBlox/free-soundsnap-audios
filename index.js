@@ -15,32 +15,50 @@ app.post('/getAudioSource', async (req, res) => {
             headless: "new",
             args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
-  
 
         const page = await browser.newPage();
-        await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
+        await page.setRequestInterception(true);
 
-        await page.hover('span.ojoo-button.ojoo-play').catch(e => console.error('Error on hover:', e));
-
-        await page.waitForSelector('audio', { timeout: 10000 }).catch(e => console.error('Error on waitForSelector:', e));
-
-        const audioSrc = await page.evaluate(() => {
-            const audio = document.querySelector('audio');
-            return audio ? audio.src : null;
+        page.on('request', request => {
+            request.continue();
         });
 
+        let audioFilepath = null;
+
+        page.on('response', async response => {
+            const requestUrl = response.url();
+            if (requestUrl.includes("search-soundsnap.com/collections/prod/documents/search")) {
+                try {
+                    const responseJson = await response.json();
+                    const hits = responseJson?.hits;
+                    if (hits && hits.length > 0) {
+                        const document = hits[0].document;
+                        if (document && document['audio.filepath']) {
+                            if(url.startsWith("https://www.soundsnap.com/stock-music/")) {
+                                audioFilepath = `https://www.soundsnap.com/stock-music/play?t=e&p=${document['audio.filepath']}`;
+                            } else {
+                                audioFilepath = `https://www.soundsnap.com/play?t=e&p=${document['audio.filepath']}`;
+                            }
+                        }
+                    }
+                } catch (e) {
+                }
+            }
+        });
+
+        await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
         await browser.close();
 
-        if (audioSrc) {
-            res.json({ audioSrc });
+        if (audioFilepath) {
+            res.json({ audioSrc: audioFilepath });
         } else {
             res.json({ error: 'Audio source not found.' });
         }
     } catch (error) {
-        console.error('Error in getAudioSource:', error);
         res.status(500).json({ error: error.message });
     }
 });
+
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
