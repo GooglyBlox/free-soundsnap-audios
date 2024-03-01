@@ -25,7 +25,7 @@ To install the required packages, follow these steps:
    npm install
    ```
 
-## Babel Setup
+### Babel Setup
 1. Install Babel and its presets:
   ```bash
 npm install @babel/core @babel/node @babel/preset-env
@@ -43,7 +43,7 @@ npx babel-node index.js
 ```
 
 ## Usage
-Once the application is live, simply paste your Soundsnap audio URL into the input box and press Fetch Audio Source. It'll take a few seconds, but it should fetch the audio file for you.
+Once the application is live, simply paste your Soundsnap audio URL into the input box and press Fetch Audio. It'll take a few seconds, but it should fetch the audio file for you.
 
 
 ## :warning: Important Disclaimer
