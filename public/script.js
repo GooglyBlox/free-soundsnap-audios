@@ -15,7 +15,7 @@ document.getElementById('fetchButton').addEventListener('click', function() {
         .then(response => response.json())
         .then(data => {
             if(data.audioSrc) {
-                audioLinkContainer.innerHTML = `<a href="${data.audioSrc}" target="_blank" class="audio-button">Go to Audio</a>`;
+                audioLinkContainer.innerHTML = `<a href="${data.audioSrc}" target="_blank" class="audio-button">Download audio</a>`;
             } else {
                 audioLinkContainer.innerHTML = 'No audio source found.';
             }
