@@ -3,7 +3,7 @@ document.getElementById('fetchButton').addEventListener('click', function() {
     var audioLinkContainer = document.getElementById('audioLinkContainer');
     
     if (inputUrl.startsWith('https://www.soundsnap.com/')) {
-        audioLinkContainer.innerHTML = '<div class="loader">Loading...</div>';
+        audioLinkContainer.innerHTML = '<div class="loader"></div>';
 
         fetch('/getAudioSource', {
             method: 'POST',

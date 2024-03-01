@@ -34,7 +34,7 @@ app.post('/getAudioSource', async (req, res) => {
                     if (hits && hits.length > 0) {
                         const document = hits[0].document;
                         if (document && document['audio.filepath']) {
-                            if(url.startsWith("https://www.soundsnap.com/stock-music/")) {
+                            if(url.includes("/stock-music/")) {
                                 audioFilepath = `https://www.soundsnap.com/stock-music/play?t=e&p=${document['audio.filepath']}`;
                             } else {
                                 audioFilepath = `https://www.soundsnap.com/play?t=e&p=${document['audio.filepath']}`;
