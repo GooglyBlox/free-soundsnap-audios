@@ -1,4 +1,4 @@
-# Free [Soundsnap](https://www.soundsnap.com/) Audios - Deno Version
+# Free [Soundsnap](https://www.soundsnap.com/) Audios - Deno Version (THIS BRANCH IS NOT ACTIVELY MAINTAINED CURRENTLY)
 
 This repository contains a Deno application built with Oak and Puppeteer. It's designed to extract audio sources from Soundsnap using Puppeteer's headless browser capabilities, leveraging the modern features of Deno.
 
