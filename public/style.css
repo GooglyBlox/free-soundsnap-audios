@@ -1,7 +1,7 @@
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #171717; /* Dark background for dark mode */
-    color: #ddd; /* Lighter text color for readability */
+    background-color: #171717; 
+    color: #ddd;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -25,44 +25,44 @@ body {
     margin: 10px 0;
     padding: 12px 20px;
     width: calc(100% - 40px);
-    border: 2px solid transparent; /* Transition to transparent for a sleek look */
-    background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
-    color: #ddd; /* Light text color for contrast */
-    border-radius: 4px; /* Soften the edges for a modern look */
-    transition: all 0.3s ease; /* Smooth transition for interactions */
+    border: 2px solid transparent; 
+    background: rgba(255, 255, 255, 0.1); 
+    color: #ddd; 
+    border-radius: 4px;
+    transition: all 0.3s ease; 
 }
 
 #urlInput:focus, #fetchButton:focus, #urlInput:hover, #fetchButton:hover {
     outline: none;
-    border-color: #555; /* Subtle border color change for focus and hover */
-    background-color: rgba(255, 255, 255, 0.2); /* Increase background opacity on hover/focus for depth */
+    border-color: #555;
+    background-color: rgba(255, 255, 255, 0.2); 
 }
 
 #fetchButton {
-    background-color: rgba(51, 51, 51, 0.8); /* More pronounced button background */
-    color: #ccc; /* Adjusted text color for visibility */
+    background-color: rgba(51, 51, 51, 0.8);
+    color: #ccc;
     border: none;
     cursor: pointer;
-    transform: translateY(0); /* Set default state for animation */
+    transform: translateY(0); 
 }
 
 #fetchButton:hover {
-    background-color: rgba(68, 68, 68, 0.8); /* Lighter on hover for feedback */
-    color: #fff; /* Brighter text on hover for emphasis */
-    transform: translateY(-2px); /* Lift effect for interactive feedback */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); /* Soft shadow for depth */
+    background-color: rgba(68, 68, 68, 0.8); 
+    color: #fff; 
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 }
 
 #audioLinkContainer {
     margin-top: 20px;
     padding: 10px;
     width: 100%;
-    border-radius: 4px; /* Consistent rounded corners */
+    border-radius: 4px;
 }
 
 .loader {
-    border: 4px solid #2c2c2c; /* Adjust loader color for visibility */
-    border-top-color: #ddd; /* Highlight color for the spinning part */
+    border: 4px solid #2c2c2c;
+    border-top-color: #ddd;
     border-radius: 50%;
     width: 36px;
     height: 36px;
@@ -72,20 +72,20 @@ body {
 
 .audio-button {
     padding: 10px 20px;
-    background-color: rgba(51, 51, 51, 0.8); /* Harmonize button color with theme */
-    color: #ccc; /* Ensure readability */
+    background-color: rgba(51, 51, 51, 0.8);
+    color: #ccc;
     border: none;
     text-decoration: none;
     display: inline-block;
     margin: 5px;
-    border-radius: 4px; /* Rounded edges for a modern feel */
-    transition: background-color 0.3s, transform 0.2s; /* Smooth transitions for interactions */
+    border-radius: 4px;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .audio-button:hover {
-    background-color: rgba(68, 68, 68, 0.8); /* Hover state for visual feedback */
-    color: #fff; /* Enhanced visibility on hover */
-    transform: translateY(-2px); /* Subtle lift effect */
+    background-color: rgba(68, 68, 68, 0.8);
+    color: #fff;
+    transform: translateY(-2px);
 }
 
 @keyframes spin {
