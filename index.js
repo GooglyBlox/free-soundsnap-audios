@@ -27,7 +27,7 @@ app.post('/getAudioSource', async (req, res) => {
 
         page.on('response', async response => {
             const requestUrl = response.url();
-            if (requestUrl.includes("search-soundsnap.com/collections/prod/documents/search")) {
+            if (requestUrl.includes("search-soundsnap.com/collections/")) {
                 try {
                     const responseJson = await response.json();
                     const hits = responseJson?.hits;
@@ -42,6 +42,7 @@ app.post('/getAudioSource', async (req, res) => {
                         }
                     }
                 } catch (e) {
+                    console.error('Error parsing response JSON:', e);
                 }
             }
         });
@@ -58,7 +59,6 @@ app.post('/getAudioSource', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
-
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
