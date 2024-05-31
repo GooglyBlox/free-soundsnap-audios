@@ -12,7 +12,7 @@ app.post('/getAudioSource', async (req, res) => {
     const url = req.body.url;
     try {
         const browser = await puppeteer.launch({
-            headless: true,
+            headless: "new",
             executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || puppeteer.executablePath(),
             args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
