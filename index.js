@@ -10,14 +10,20 @@ app.use(express.static('public'));
 
 app.post('/getAudioSource', async (req, res) => {
     const url = req.body.url;
-    console.log(`Received request to fetch audio source from URL: ${url}`);
+    const logs = [];
+    const log = (message) => {
+        console.log(message);
+        logs.push(message);
+    };
+
+    log(`Received request to fetch audio source from URL: ${url}`);
     try {
         const browser = await puppeteer.launch({
-            headless: "new",
+            headless: true,
             executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || puppeteer.executablePath(),
             args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
-        console.log('Puppeteer launched successfully');
+        log('Puppeteer launched successfully');
 
         const page = await browser.newPage();
         await page.setRequestInterception(true);
@@ -30,7 +36,7 @@ app.post('/getAudioSource', async (req, res) => {
 
         page.on('response', async response => {
             const requestUrl = response.url();
-            console.log(`Received response from URL: ${requestUrl}`);
+            log(`Received response from URL: ${requestUrl}`);
             if (requestUrl.includes("search-soundsnap.com/collections/")) {
                 try {
                     const responseJson = await response.json();
@@ -46,26 +52,26 @@ app.post('/getAudioSource', async (req, res) => {
                         }
                     }
                 } catch (e) {
-                    console.error('Error parsing response JSON:', e);
+                    log('Error parsing response JSON:', e);
                 }
             }
         });
 
-        console.log(`Navigating to URL: ${url}`);
+        log(`Navigating to URL: ${url}`);
         await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
-        console.log('Page navigation completed');
+        log('Page navigation completed');
         await browser.close();
 
         if (audioFilepath) {
-            console.log(`Audio source found: ${audioFilepath}`);
-            res.json({ audioSrc: audioFilepath });
+            log(`Audio source found: ${audioFilepath}`);
+            res.json({ audioSrc: audioFilepath, logs });
         } else {
-            console.log('Audio source not found');
-            res.json({ error: 'Audio source not found.' });
+            log('Audio source not found');
+            res.json({ error: 'Audio source not found.', logs });
         }
     } catch (error) {
-        console.error('Error during Puppeteer operation:', error);
-        res.status(500).json({ error: error.message });
+        log('Error during Puppeteer operation:', error);
+        res.status(500).json({ error: error.message, logs });
     }
 });
 

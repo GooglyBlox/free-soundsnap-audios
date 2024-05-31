@@ -92,3 +92,18 @@ body {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+
+.log-container {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #2c2c2c;
+    border-radius: 4px;
+    color: #ddd;
+}
+
+.log-entry {
+    margin-bottom: 5px;
+    font-size: 14px;
+    white-space: pre-wrap;
+}
