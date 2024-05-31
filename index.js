@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import puppeteer from 'puppeteer';
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 app.use(express.static('public'));
@@ -12,7 +12,8 @@ app.post('/getAudioSource', async (req, res) => {
     const url = req.body.url;
     try {
         const browser = await puppeteer.launch({
-            headless: "new",
+            headless: true,
+            executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || puppeteer.executablePath(),
             args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
 
