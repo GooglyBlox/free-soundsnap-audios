@@ -1,3 +1,4 @@
+const chromium = require('@sparticuz/chromium');
 let puppeteer;
 
 if (process.env.VERCEL) {
@@ -6,25 +7,15 @@ if (process.env.VERCEL) {
   puppeteer = require('puppeteer');
 }
 
-async function getChromePath() {
-  if (process.env.VERCEL) {
-    return '/vercel/path0/node_modules/puppeteer-core/.local-chromium/linux-1095492/chrome-linux/chrome';
-  } else {
-    const browserFetcher = puppeteer.createBrowserFetcher();
-    const revisionInfo = await browserFetcher.download('1095492');
-    return revisionInfo.executablePath;
-  }
-}
-
 module.exports = async (req, res) => {
   console.log('Received request:', req.body);
   const { url } = req.body;
   try {
-    const chromePath = await getChromePath();
     const browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      headless: true,
-      executablePath: chromePath,
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath(),
+      headless: chromium.headless,
     });
     const page = await browser.newPage();
 
