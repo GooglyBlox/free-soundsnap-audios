@@ -1,26 +1,31 @@
 let puppeteer;
 
-if (process.env.CHROME_EXECUTABLE_PATH) {
+if (process.env.VERCEL) {
   puppeteer = require('puppeteer-core');
 } else {
   puppeteer = require('puppeteer');
+}
+
+async function getChromePath() {
+  if (process.env.VERCEL) {
+    return '/vercel/path0/node_modules/puppeteer-core/.local-chromium/linux-1095492/chrome-linux/chrome';
+  } else {
+    const browserFetcher = puppeteer.createBrowserFetcher();
+    const revisionInfo = await browserFetcher.download('1095492');
+    return revisionInfo.executablePath;
+  }
 }
 
 module.exports = async (req, res) => {
   console.log('Received request:', req.body);
   const { url } = req.body;
   try {
-    let launchOptions = {
+    const chromePath = await getChromePath();
+    const browser = await puppeteer.launch({
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
       headless: true,
-    };
-
-    if (process.env.CHROME_EXECUTABLE_PATH) {
-      const chromium = require('@sparticuz/chromium');
-      launchOptions.executablePath = process.env.CHROME_EXECUTABLE_PATH || (await chromium.executablePath());
-    }
-
-    const browser = await puppeteer.launch(launchOptions);
+      executablePath: chromePath,
+    });
     const page = await browser.newPage();
 
     let audioFilepath = null;
