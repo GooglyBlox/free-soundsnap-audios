@@ -8,6 +8,7 @@
   "dependencies": {
     "chrome-aws-lambda": "^10.1.0",
     "puppeteer": "^19.1.0",
+    "puppeteer-chromium-resolver": "^22.0.0",
     "puppeteer-core": "^22.11.0"
   },
   "devDependencies": {

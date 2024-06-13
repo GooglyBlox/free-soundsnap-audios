@@ -1,14 +1,14 @@
-const chromium = require('chrome-aws-lambda');
+const PCR = require('puppeteer-chromium-resolver');
 const puppeteer = require('puppeteer-core');
 
 module.exports = async (req, res) => {
   console.log('Received request:', req.body);
   const { url } = req.body;
   try {
+    const stats = await PCR();
     const browser = await puppeteer.launch({
-      args: chromium.args,
-      executablePath: await chromium.executablePath,
-      headless: chromium.headless,
+      args: ['--no-sandbox'],
+      executablePath: stats.executablePath,
     });
     const page = await browser.newPage();
 
