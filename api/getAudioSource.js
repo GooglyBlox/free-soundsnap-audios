@@ -1,26 +1,32 @@
-const PCR = require('puppeteer-chromium-resolver');
-const puppeteer = require('puppeteer-core');
+let chrome = {};
+let puppeteer;
+
+if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+  chrome = require('chrome-aws-lambda');
+  puppeteer = require('puppeteer-core');
+} else {
+  puppeteer = require('puppeteer');
+}
 
 module.exports = async (req, res) => {
   console.log('Received request:', req.body);
   const { url } = req.body;
   try {
-    let executablePath;
-    if (process.env.VERCEL) {
-      executablePath = process.env.CHROME_EXECUTABLE_PATH;
-    } else {
-      const stats = await PCR({
-        folderName: '.chromium-browser-snapshots',
-        hosts: ['https://storage.googleapis.com', 'https://npm.taobao.org/mirrors'],
-        retry: 3,
-      });
-      executablePath = stats.executablePath;
+    let launchOptions = {
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      headless: true,
+    };
+
+    if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+      launchOptions = {
+        args: chrome.args,
+        defaultViewport: chrome.defaultViewport,
+        executablePath: await chrome.executablePath,
+        headless: chrome.headless,
+      };
     }
 
-    const browser = await puppeteer.launch({
-      args: ['--no-sandbox'],
-      executablePath,
-    });
+    const browser = await puppeteer.launch(launchOptions);
     const page = await browser.newPage();
 
     let audioFilepath = null;

@@ -6,18 +6,13 @@
     "dev": "vercel dev"
   },
   "dependencies": {
-    "puppeteer-chromium-resolver": "^22.0.0",
-    "puppeteer-core": "^22.11.0"
+    "chrome-aws-lambda": "10.1.0",
+    "puppeteer-core": "10.4.0"
   },
   "devDependencies": {
+    "puppeteer": "10.4.0",
     "vercel": "^28.0.0"
   },
   "author": "",
-  "license": "ISC",
-  "vercel": {
-    "env": {
-      "PUPPETEER_SKIP_DOWNLOAD": "true",
-      "CHROME_EXECUTABLE_PATH": "/usr/bin/chromium-browser"
-    }
-  }
+  "license": "ISC"
 }
