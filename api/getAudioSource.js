@@ -1,8 +1,6 @@
-let chrome = {};
 let puppeteer;
 
-if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
-  chrome = require('chrome-aws-lambda');
+if (process.env.CHROME_EXECUTABLE_PATH) {
   puppeteer = require('puppeteer-core');
 } else {
   puppeteer = require('puppeteer');
@@ -17,13 +15,9 @@ module.exports = async (req, res) => {
       headless: true,
     };
 
-    if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
-      launchOptions = {
-        args: chrome.args,
-        defaultViewport: chrome.defaultViewport,
-        executablePath: await chrome.executablePath,
-        headless: chrome.headless,
-      };
+    if (process.env.CHROME_EXECUTABLE_PATH) {
+      const chromium = require('@sparticuz/chromium');
+      launchOptions.executablePath = process.env.CHROME_EXECUTABLE_PATH || (await chromium.executablePath());
     }
 
     const browser = await puppeteer.launch(launchOptions);

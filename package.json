@@ -6,11 +6,11 @@
     "dev": "vercel dev"
   },
   "dependencies": {
-    "chrome-aws-lambda": "10.1.0",
-    "puppeteer-core": "10.4.0"
+    "@sparticuz/chromium": "^123.0.1",
+    "puppeteer-core": "^15.1.0"
   },
   "devDependencies": {
-    "puppeteer": "10.4.0",
+    "puppeteer": "^15.1.0",
     "vercel": "^28.0.0"
   },
   "author": "",
