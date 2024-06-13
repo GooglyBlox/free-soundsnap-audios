@@ -18,10 +18,15 @@ module.exports = async (req, res) => {
       headless: chromium.headless,
     });
     const page = await browser.newPage();
+    await page.setRequestInterception(true);
+
+    page.on('request', request => {
+      request.continue();
+    });
 
     let audioFilepath = null;
 
-    page.on('response', async (response) => {
+    page.on('response', async response => {
       const requestUrl = response.url();
       if (requestUrl.includes("search-soundsnap.com/collections/")) {
         try {
@@ -30,7 +35,11 @@ module.exports = async (req, res) => {
           if (hits && hits.length > 0) {
             const document = hits[0].document;
             if (document && document['audio.filepath']) {
-              audioFilepath = `https://www.soundsnap.com/play?t=e&p=${document['audio.filepath']}`;
+              if(url.includes("/stock-music/")) {
+                audioFilepath = `https://www.soundsnap.com/stock-music/play?t=e&p=${document['audio.filepath']}`;
+              } else {
+                audioFilepath = `https://www.soundsnap.com/play?t=e&p=${document['audio.filepath']}`;
+              }
             }
           }
         } catch (e) {
