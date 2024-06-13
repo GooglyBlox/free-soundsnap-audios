@@ -13,5 +13,11 @@
     "vercel": "^28.0.0"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "vercel": {
+    "env": {
+      "PUPPETEER_SKIP_DOWNLOAD": "true",
+      "CHROME_EXECUTABLE_PATH": "/usr/bin/chromium-browser"
+    }
+  }
 }

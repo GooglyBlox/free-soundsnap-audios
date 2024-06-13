@@ -5,14 +5,21 @@ module.exports = async (req, res) => {
   console.log('Received request:', req.body);
   const { url } = req.body;
   try {
-    const stats = await PCR({
-      folderName: '.chromium-browser-snapshots',
-      hosts: ['https://storage.googleapis.com', 'https://npm.taobao.org/mirrors'],
-      retry: 3,
-    });
+    let executablePath;
+    if (process.env.VERCEL) {
+      executablePath = process.env.CHROME_EXECUTABLE_PATH;
+    } else {
+      const stats = await PCR({
+        folderName: '.chromium-browser-snapshots',
+        hosts: ['https://storage.googleapis.com', 'https://npm.taobao.org/mirrors'],
+        retry: 3,
+      });
+      executablePath = stats.executablePath;
+    }
+
     const browser = await puppeteer.launch({
       args: ['--no-sandbox'],
-      executablePath: stats.executablePath,
+      executablePath,
     });
     const page = await browser.newPage();
 
