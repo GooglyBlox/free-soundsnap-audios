@@ -5,7 +5,11 @@ module.exports = async (req, res) => {
   console.log('Received request:', req.body);
   const { url } = req.body;
   try {
-    const stats = await PCR();
+    const stats = await PCR({
+      folderName: '.chromium-browser-snapshots',
+      hosts: ['https://storage.googleapis.com', 'https://npm.taobao.org/mirrors'],
+      retry: 3,
+    });
     const browser = await puppeteer.launch({
       args: ['--no-sandbox'],
       executablePath: stats.executablePath,
