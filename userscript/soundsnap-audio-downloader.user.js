@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Soundsnap Direct Downloader
+// @name         Soundsnap Audio Downloader
 // @namespace    https://github.com/GooglyBlox/free-soundsnap-audios
 // @updateURL    https://raw.githubusercontent.com/GooglyBlox/free-soundsnap-audios/main/userscript/soundsnap-audio-downloader.user.js
 // @version      1.0
