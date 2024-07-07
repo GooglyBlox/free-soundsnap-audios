@@ -8,8 +8,14 @@ if (process.env.VERCEL) {
 }
 
 module.exports = async (req, res) => {
-  console.log('Received request:', req.body);
-  const { url } = req.body;
+  console.log('Received request:', req.method === 'POST' ? req.body : req.query);
+  const url = req.method === 'POST' ? req.body.url : req.query.url;
+  const directDownload = req.method === 'GET';
+
+  if (!url) {
+    return res.status(400).json({ error: 'URL parameter is required' });
+  }
+
   try {
     const browser = await puppeteer.launch({
       args: chromium.args,
@@ -53,10 +59,14 @@ module.exports = async (req, res) => {
 
     if (audioFilepath) {
       console.log('Found audio source:', audioFilepath);
-      res.json({ audioSrc: audioFilepath });
+      if (directDownload) {
+        res.redirect(audioFilepath);
+      } else {
+        res.json({ audioSrc: audioFilepath });
+      }
     } else {
       console.log('No audio source found.');
-      res.json({ error: 'Audio source not found.' });
+      res.status(404).json({ error: 'Audio source not found.' });
     }
   } catch (error) {
     console.error('Error:', error.message);
