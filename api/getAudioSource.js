@@ -16,31 +16,21 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: 'URL parameter is required' });
   }
 
-  let browser;
   try {
-    browser = await puppeteer.launch({
-      args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox'],
+    const browser = await puppeteer.launch({
+      args: chromium.args,
       defaultViewport: chromium.defaultViewport,
       executablePath: await chromium.executablePath(),
       headless: chromium.headless,
-      ignoreHTTPSErrors: true,
     });
-
     const page = await browser.newPage();
-    await page.setDefaultNavigationTimeout(30000);
-    await page.setDefaultTimeout(30000);
     await page.setRequestInterception(true);
 
-    let audioFilepath = null;
-    let navigationPromise;
-
     page.on('request', request => {
-      if (['image', 'stylesheet', 'font'].includes(request.resourceType())) {
-        request.abort();
-      } else {
-        request.continue();
-      }
+      request.continue();
     });
+
+    let audioFilepath = null;
 
     page.on('response', async response => {
       const requestUrl = response.url();
@@ -64,16 +54,8 @@ module.exports = async (req, res) => {
       }
     });
 
-    navigationPromise = page.goto(url, { 
-      waitUntil: 'networkidle0',
-      timeout: 30000 
-    });
-
-    const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error('Navigation timeout')), 30000)
-    );
-
-    await Promise.race([navigationPromise, timeoutPromise]);
+    await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
+    await browser.close();
 
     if (audioFilepath) {
       console.log('Found audio source:', audioFilepath);
@@ -89,13 +71,5 @@ module.exports = async (req, res) => {
   } catch (error) {
     console.error('Error:', error.message);
     res.status(500).json({ error: error.message });
-  } finally {
-    if (browser) {
-      try {
-        await browser.close();
-      } catch (error) {
-        console.error('Error closing browser:', error);
-      }
-    }
   }
 };
