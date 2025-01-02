@@ -1,109 +1,163 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #171717; 
-    color: #ddd;
+    font-family: 'Inter', sans-serif;
+    background-color: #18181b;
+    color: #fafafa;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
     padding: 20px;
-    background-image: url('grid.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
 }
 
 .container {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.content {
+    background-color: #27272a;
+    border: 1px solid #3f3f46;
+    border-radius: 12px;
+    padding: 32px;
+}
+
+.header {
     text-align: center;
-    padding: 20px;
+    margin-bottom: 32px;
+}
+
+.icon-container {
+    background-color: #3f3f46;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+}
+
+.icon-container svg {
+    color: #fafafa;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #fafafa;
+}
+
+.subtitle {
+    color: #a1a1aa;
+    font-size: 14px;
+}
+
+.input-group {
+    margin-bottom: 24px;
+}
+
+input[type="text"] {
     width: 100%;
-    max-width: 500px;
+    padding: 12px 16px;
+    background-color: #18181b;
+    border: 1px solid #3f3f46;
+    border-radius: 8px;
+    color: #fafafa;
+    font-size: 14px;
+    margin-bottom: 12px;
+    transition: border-color 0.2s;
 }
 
-#urlInput, #fetchButton {
-    margin: 10px 0;
-    padding: 12px 20px;
-    width: calc(100% - 40px);
-    border: 2px solid transparent; 
-    background: rgba(255, 255, 255, 0.1); 
-    color: #ddd; 
-    border-radius: 4px;
-    transition: all 0.3s ease; 
-}
-
-#urlInput:focus, #fetchButton:focus, #urlInput:hover, #fetchButton:hover {
+input[type="text"]:focus {
     outline: none;
-    border-color: #555;
-    background-color: rgba(255, 255, 255, 0.2); 
+    border-color: #52525b;
 }
 
-#fetchButton {
-    background-color: rgba(51, 51, 51, 0.8);
-    color: #ccc;
-    border: none;
-    cursor: pointer;
-    transform: translateY(0); 
+input[type="text"]::placeholder {
+    color: #71717a;
 }
 
-#fetchButton:hover {
-    background-color: rgba(68, 68, 68, 0.8); 
-    color: #fff; 
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-}
-
-#audioLinkContainer {
-    margin-top: 20px;
-    padding: 10px;
+button {
     width: 100%;
-    border-radius: 4px;
+    padding: 12px 16px;
+    background-color: #3f3f46;
+    border: none;
+    border-radius: 8px;
+    color: #fafafa;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button:hover {
+    background-color: #52525b;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 .loader {
-    border: 4px solid #2c2c2c;
-    border-top-color: #ddd;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #3f3f46;
+    border-top-color: #fafafa;
     border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    margin: 10px auto;
-    animation: spin 2s linear infinite;
+    margin-left: 8px;
+    animation: spin 1s linear infinite;
+}
+
+.error-container {
+    background-color: rgba(220, 38, 38, 0.1);
+    border: 1px solid rgba(220, 38, 38, 0.2);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 24px;
+}
+
+.error-container p {
+    color: #fca5a5;
+    font-size: 14px;
 }
 
 .audio-button {
-    padding: 10px 20px;
-    background-color: rgba(51, 51, 51, 0.8);
-    color: #ccc;
-    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 12px 16px;
+    background-color: #18181b;
+    border: 1px solid #3f3f46;
+    border-radius: 8px;
+    color: #fafafa;
     text-decoration: none;
-    display: inline-block;
-    margin: 5px;
-    border-radius: 4px;
-    transition: background-color 0.3s, transform 0.2s;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s;
 }
 
 .audio-button:hover {
-    background-color: rgba(68, 68, 68, 0.8);
-    color: #fff;
-    transform: translateY(-2px);
+    background-color: #27272a;
+}
+
+.audio-button svg {
+    margin-right: 8px;
 }
 
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-}
-
-
-.log-container {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #2c2c2c;
-    border-radius: 4px;
-    color: #ddd;
-}
-
-.log-entry {
-    margin-bottom: 5px;
-    font-size: 14px;
-    white-space: pre-wrap;
 }
