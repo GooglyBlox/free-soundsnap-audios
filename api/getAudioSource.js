@@ -34,6 +34,11 @@ module.exports = async (req, res) => {
 
     page.on('response', async response => {
       const requestUrl = response.url();
+      
+      if (requestUrl.includes("soundsnap")) {
+        console.log('SoundSnap request:', requestUrl);
+      }
+      
       if (requestUrl.includes("soundsnap-prod.nyc3.digitaloceanspaces.com") && 
           requestUrl.includes("/transcode/") && 
           requestUrl.includes(".mp3")) {
@@ -42,7 +47,17 @@ module.exports = async (req, res) => {
       }
     });
 
-    await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
+    await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
+    
+    try {
+      await page.waitForSelector('.ojoo-play', { timeout: 5000 });
+      await page.click('.ojoo-play');
+      console.log('Clicked play button');
+      await page.waitForTimeout(3000);
+    } catch (e) {
+      console.log('Could not click play button:', e.message);
+    }
+    
     await browser.close();
 
     if (audioFilepath) {
