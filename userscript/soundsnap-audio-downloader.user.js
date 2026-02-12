@@ -82,8 +82,7 @@
 
     function modifySoundSnapButtons() {
         const downloadButtons = document.querySelectorAll([
-            'a.button-icon.teaser-icons.primary.ojoo-icon-download[href="/products-modal"]',
-            'a.button-icon.teaser-icons.primary.ojoo-icon-download[href="/stock-music/products-modal"]'
+          'a.button-icon.teaser-icons.primary.ojoo-icon-download[href^="/products"]'
         ].join(','));
 
         downloadButtons.forEach(downloadButton => {
