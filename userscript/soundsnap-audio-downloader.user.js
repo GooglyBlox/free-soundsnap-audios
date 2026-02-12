@@ -1,8 +1,7 @@
 // ==UserScript==
 // @name         Soundsnap Audio Downloader
 // @namespace    https://github.com/GooglyBlox/free-soundsnap-audios
-// @updateURL    https://raw.githubusercontent.com/GooglyBlox/free-soundsnap-audios/main/userscript/soundsnap-audio-downloader.user.js
-// @version      1.0
+// @version      1.1
 // @description  Directly download audio from Soundsnap without a premium account.
 // @author       GooglyBlox
 // @match        https://www.soundsnap.com/*
@@ -10,6 +9,8 @@
 // @grant        GM_xmlhttpRequest
 // @license      CC-BY-NC-SA-4.0; https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
 // @license      MIT
+// @downloadURL https://update.greasyfork.org/scripts/499882/Soundsnap%20Audio%20Downloader.user.js
+// @updateURL https://update.greasyfork.org/scripts/499882/Soundsnap%20Audio%20Downloader.meta.js
 // ==/UserScript==
 
 (function() {
@@ -81,8 +82,8 @@
 
     function modifySoundSnapButtons() {
         const downloadButtons = document.querySelectorAll([
-            'a.button-icon.teaser-icons.primary.ojoo-icon-download[href="/products"]',
-            'a.button-icon.teaser-icons.primary.ojoo-icon-download[href="/stock-music/products"]'
+            'a.button-icon.teaser-icons.primary.ojoo-icon-download[href="/products-modal"]',
+            'a.button-icon.teaser-icons.primary.ojoo-icon-download[href="/stock-music/products-modal"]'
         ].join(','));
 
         downloadButtons.forEach(downloadButton => {
