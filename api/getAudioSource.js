@@ -34,23 +34,11 @@ module.exports = async (req, res) => {
 
     page.on('response', async response => {
       const requestUrl = response.url();
-      if (requestUrl.includes("search-soundsnap.com/collections/")) {
-        try {
-          const responseJson = await response.json();
-          const hits = responseJson?.hits;
-          if (hits && hits.length > 0) {
-            const document = hits[0].document;
-            if (document && document['audio.filepath']) {
-              if(url.includes("/stock-music/")) {
-                audioFilepath = `https://www.soundsnap.com/stock-music/play?t=e&p=${document['audio.filepath']}`;
-              } else {
-                audioFilepath = `https://www.soundsnap.com/play?t=e&p=${document['audio.filepath']}`;
-              }
-            }
-          }
-        } catch (e) {
-          console.error('Error parsing response JSON:', e);
-        }
+      if (requestUrl.includes("soundsnap-prod.nyc3.digitaloceanspaces.com") && 
+          requestUrl.includes("/transcode/") && 
+          requestUrl.includes(".mp3")) {
+        audioFilepath = requestUrl;
+        console.log('Captured audio URL:', audioFilepath);
       }
     });
 
